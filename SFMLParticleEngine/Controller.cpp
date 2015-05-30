@@ -40,8 +40,6 @@ void Controller::setText(std::string str)
 
 void Controller::draw()
 {
-	
-
 	if (!emitterList.empty()){
 		for (int i = 0; i < emitterList.size(); i++)
 		{

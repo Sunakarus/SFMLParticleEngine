@@ -33,6 +33,9 @@
     <ClInclude Include="Controller.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSettings.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

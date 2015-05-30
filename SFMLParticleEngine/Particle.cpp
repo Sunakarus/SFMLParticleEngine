@@ -10,12 +10,13 @@ Particle::Particle(Controller* controller, ParticleEmitter* emitter)
 {
 	this->controller = controller;
 	this->emitter = emitter;
-	speed = controller->getRandomNumber(4,6);
-	size = controller->getRandomNumber(30,50);
+	ParticleSettings p = emitter->partSettings;
+	speed = p.partSpeed + controller->getRandomNumber(-p.partSpeedVariation, p.partSpeedVariation);
+	size = p.partSize + controller->getRandomNumber(-p.partSizeVariation, p.partSizeVariation);
 	color = sf::Color::Color(255, controller->getRandomNumber(0,255), controller->getRandomNumber(0,255), controller->getRandomNumber(100,150));
 	shape = sf::CircleShape(size);
 	shape.setFillColor(color);
-	shape.setPosition(emitter->position.x + controller->getRandomNumber(-emitter->radius, emitter->radius), emitter->position.y + controller->getRandomNumber(-emitter->radius, emitter->radius));
+	shape.setPosition(emitter->position.x + controller->getRandomNumber(-p.emitterRadius, p.emitterRadius-size*2), emitter->position.y + controller->getRandomNumber(-p.emitterRadius, p.emitterRadius-size*2));
 	direction = sf::Vector2f(controller->getRandomNumber(-10, 10), -10);
 	direction = normalizeVector(direction);
 }
@@ -33,10 +34,10 @@ void Particle::printInfo()
 
 bool Particle::outOfBounds(sf::Vector2f position)
 {
-	return (position.x > controller->window->getSize().x + size ||
-		position.x < -size ||
-		position.y > controller->window->getSize().y + size ||
-		position.y < -size);
+	return (position.x > controller->window->getSize().x ||
+		position.x < -(size*2) ||
+		position.y > controller->window->getSize().y ||
+		position.y < -(size*2));
 }
 
 void Particle::update()
